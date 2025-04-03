@@ -1,31 +1,49 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.13.35919.96 d17.13
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "0403.c", "0403.c\0403.c.vcxproj", "{E549D05D-793F-4916-8EBB-34676B4E7D5B}"
-EndProject
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x64 = Debug|x64
-		Debug|x86 = Debug|x86
-		Release|x64 = Release|x64
-		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E549D05D-793F-4916-8EBB-34676B4E7D5B}.Debug|x64.ActiveCfg = Debug|x64
-		{E549D05D-793F-4916-8EBB-34676B4E7D5B}.Debug|x64.Build.0 = Debug|x64
-		{E549D05D-793F-4916-8EBB-34676B4E7D5B}.Debug|x86.ActiveCfg = Debug|Win32
-		{E549D05D-793F-4916-8EBB-34676B4E7D5B}.Debug|x86.Build.0 = Debug|Win32
-		{E549D05D-793F-4916-8EBB-34676B4E7D5B}.Release|x64.ActiveCfg = Release|x64
-		{E549D05D-793F-4916-8EBB-34676B4E7D5B}.Release|x64.Build.0 = Release|x64
-		{E549D05D-793F-4916-8EBB-34676B4E7D5B}.Release|x86.ActiveCfg = Release|Win32
-		{E549D05D-793F-4916-8EBB-34676B4E7D5B}.Release|x86.Build.0 = Release|Win32
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {349E80D7-8F80-43FA-9201-CAC5F7354977}
-	EndGlobalSection
-EndGlobal
+﻿#include <stdio.h>
+#include <math.h>
+
+#define PI 3.14159265358979323846
+
+void polarToCartesian(double r, double theta, double* x, double* y) {
+    *x = r * cos(theta);
+    *y = r * sin(theta);
+}
+
+void cartesianToPolar(double x, double y, double* r, double* theta) {
+    *r = sqrt(x * x + y * y);
+    *theta = atan2(y, x);
+}
+
+int main() {
+    int choice;
+    printf("좌표 변환 프로그램\n");
+    printf("1: 극좌표 -> 직교좌표\n");
+    printf("2: 직교좌표 -> 극좌표\n");
+    printf("선택: ");
+    scanf_s("%d", &choice);
+
+    if (choice == 1) {
+        double r, theta, x, y;
+        printf("r 입력: ");
+        scanf_s("%lf", &r);
+        printf("theta 입력 (라디안): ");
+        scanf_s("%lf", &theta);
+        polarToCartesian(r, theta, &x, &y);
+        printf("직교좌표: x = %lf, y = %lf\n", x, y);
+    }
+    else if (choice == 2) {
+        double x, y, r, theta;
+        printf("x 입력: ");
+        scanf_s("%lf", &x);
+        printf("y 입력: ");
+        scanf_s("%lf", &y);
+        cartesianToPolar(x, y, &r, &theta);
+        printf("극좌표: r = %lf, theta = %lf 라디안\n", r, theta);
+    }
+    else {
+        printf("잘못된 입력입니다.\n");
+    }
+
+    return 0;
+}
+
+
