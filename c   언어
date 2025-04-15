@@ -1,0 +1,63 @@
+#include <stdio.h>
+#include <math.h>
+
+#define M_PI 3.14159265358979323846
+
+int main() {
+    double v0, angle_deg, h, g;
+    double angle_rad;
+    double v0x, v0y;
+    double t, X, vx, vy, v, phi;
+
+    // 입력 받기
+    printf("초기 속도 (m/s): ");
+    scanf_s("%lf", &v0);
+    printf("발사 각도 (deg): ");
+    scanf_s("%lf", &angle_deg);
+    printf("절벽 높이 (m): ");
+    scanf_s("%lf", &h);
+    printf("중력 가속도 (m/s^2): ");
+    scanf_s("%lf", &g);
+
+    // 각도 라디안 변환
+    angle_rad = angle_deg * (M_PI / 180.0);
+
+    // 수평/수직 초기 속도
+    v0x = v0 * cos(angle_rad);
+    v0y = v0 * sin(angle_rad);
+
+    // 시간 t 계산 (이차 방정식 풀기)
+    double a = 0.5 * g;
+    double b = -v0y;
+    double c = -h;
+
+    double discriminant = b * b - 4 * a * c;
+    if (discriminant < 0) {
+        printf("에러: 시간 계산 중 음의 판별식이 발생했습니다.\n");
+        return 1;
+    }
+
+    t = (-b + sqrt(discriminant)) / (2 * a); // 양의 해만 사용
+
+    // 수평 거리 X
+    X = v0x * t;
+
+    // 수직 속도 (도착 시점)
+    vy = v0y - g * t;
+    vx = v0x; // 수평 속도는 일정
+
+    // 속도 크기
+    v = sqrt(vx * vx + vy * vy);
+
+    // 수평면과 이루는 각도 (라디안 -> 도)
+    phi = atan(fabs(vy) / vx) * 180 / M_PI;
+
+    // 결과 출력
+    printf("\n(a) 충돌까지 걸린 시간: %.2f 초\n", t);
+    printf("(b) 수평 거리 X: %.2f m\n", X);
+    printf("(c) 충돌 시 속도 성분 -> vx: %.2f m/s, vy: %.2f m/s\n", vx, vy);
+    printf("(d) 속도 크기: %.2f m/s\n", v);
+    printf("(e) 수평면과 이루는 각: %.2f 도 (아래쪽)\n", phi);
+
+    return 0;
+}
