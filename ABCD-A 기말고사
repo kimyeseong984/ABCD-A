@@ -1,0 +1,21 @@
+!pip install ultralytics
+import zipfile
+
+zip_path = r"C:\Users\halla\Desktop\ABCD_A_김예성_학습데이터.zip"
+extract_to = r"C:\Users\halla\Desktop\abcd-a_A+"  # ✅ 압축을 풀 대상 폴더
+
+with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+    zip_ref.extractall(extract_to)
+
+#학습
+from ultralytics import YOLO
+model = YOLO('yolov8n-seg.pt')  # 또는 yolov8s-seg.pt 등
+model.train(
+   data = r'C:\Users\halla\Desktop\abcd-a_A+\data.yaml'  # 절대 경로
+, #yaml 수정
+    epochs=2000, #횟수
+    imgsz=640,
+    task='segment',
+    workers=0,
+    patience=0
+)
